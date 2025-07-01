@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game by Nagendra</title>
+    <link rel="icon" href="images/favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header" >
+        <h1>Rock/Paper/Scissor</h1>
+    </div>
+    <div class="container">
+        <div class="user">
+            <h2 class="option">Choose your option</h2>
+            <div class="first-div">
+                <img id="rock" src="images/rock.svg" alt="rock image">
+                <img id="paper" src="images/paper.svg" alt="paper image">
+                <img id="scissor" src="images/scissor.svg" alt="scissor image">
+            </div>
+        </div>
+        <div class="computer">
+            <h2 class="comp-option"></h2>
+            <img id="comp-opt" src="" alt="">
+            <h1 class="results"></h2>
+        </div>
+        <div class="last">
+            <div class="scores-panel">
+                <div>
+                    You: <span class="user-score">0</span>
+                </div>
+                <div>
+                    Computer: <span class="comp-score">0</span>
+                </div>
+            </div>
+            <button class="reset-btn">Reset</button>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
