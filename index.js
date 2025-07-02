@@ -1,103 +1,64 @@
-//Selectors
-const rock=document.querySelector('#rock');
-const paper=document.querySelector('#paper');
-const scissor=document.querySelector('#scissor');
-const reset=document.querySelector('.reset-btn');
-const score1=document.querySelector('.user-score');
-const score2=document.querySelector('.comp-score');
-const display1=document.querySelector('.computer .comp-option');
-const display2=document.querySelector('.computer .results');
-const computerSelection=document.querySelector('.computer img');
+const rock = document.querySelector('#rock');
+const paper = document.querySelector('#paper');
+const scissor = document.querySelector('#scissor');
+const reset = document.querySelector('.reset-btn');
+const score1 = document.querySelector('.user-score');
+const score2 = document.querySelector('.comp-score');
+const display1 = document.querySelector('.computer .comp-option');
+const display2 = document.querySelector('.computer .results');
+const computerSelection = document.querySelector('.computer img');
 
-let userOpt='';
-let compOpt='';
-let winner='';
-let userScore=0;
-let compScore=0;
-const images=[rock, paper, scissor]
-for(let img of images){
-    img.addEventListener('click',()=>{
-        userOpt=img.getAttribute('id');
-        compOpt=play();
-        display1.innerHTML='Computer Choose'
-        console.log(`${userOpt} ${compOpt}`);
+let userScore = 0, compScore = 0;
+let winner = '';
+
+[rock, paper, scissor].forEach(img => {
+    img.addEventListener('click', () => {
+        const userOpt = img.id;
+        const compOpt = play();
+        display1.textContent = 'Computer Choose';
         calcResult(userOpt, compOpt);
-        if(winner==='user')
-            userScore+=1;
-        else if(winner==='computer')
-            compScore+=1;
-        updateScore(userScore, compScore);
-    })
-}
-
-reset.addEventListener('click', ()=>{
-    score1.innerHTML=0;
-    score2.innerHTML=0;
-    userScore=0;
-    compScore=0;
-    userOpt='';
-    compOpt='';
-    winner='';
-    display1.innerHTML='';
-    display2.innerHTML='';
-    computerSelection.src='';
+        if (winner === 'user') userScore++;
+        else if (winner === 'computer') compScore++;
+        updateScore();
+    });
 });
 
-function play(){
-    const num=Math.floor(Math.random()*3);
-    if(num===0){
-        computerSelection.src='images/rock.svg';
-        return 'rock';
-    }
-    else if(num===1){
-        computerSelection.src='images/paper.svg';
-        return 'paper';
-    }  
-    else if(num===2){
-        computerSelection.src='images/scissor.svg';
-        return 'scissor';
+reset.addEventListener('click', () => {
+    userScore = compScore = 0;
+    winner = '';
+    updateScore();
+    display1.textContent = '';
+    display2.textContent = '';
+    computerSelection.src = '';
+});
+
+function play() {
+    const options = ['rock', 'paper', 'scissor'];
+    const choice = options[Math.floor(Math.random() * 3)];
+    computerSelection.src = `images/${choice}.svg`;
+    return choice;
+}
+
+function calcResult(user, comp) {
+    if (user === comp) {
+        winner = 'tie';
+        display2.textContent = 'Tie';
+    } else if (
+        (user === 'rock' && comp === 'scissor') ||
+        (user === 'paper' && comp === 'rock') ||
+        (user === 'scissor' && comp === 'paper')
+    ) {
+        winner = 'user';
+        display2.textContent = 'You Won';
+        display2.style.color='green';
+    } else {
+        winner = 'computer';
+        display2.textContent = 'Computer Won';
+        display2.style.color='red';
     }
 }
 
-function calcResult(userOpt, compOpt){
-    if(userOpt===compOpt){
-        winner='tie';
-        display2.innerHTML='Tie';
-        // alert(`Tie ${userOpt} ${compOpt}`);
-    }
-    else if(userOpt==='rock' && compOpt==='paper'){
-        winner='computer';
-        display2.innerHTML='Computer Won';
-        // alert(`Computer Wins ${userOpt} ${compOpt}`);
-    }  
-    else if(userOpt==='rock' && compOpt==='scissor'){
-        winner='user';
-        display2.innerHTML='You Won';
-        // alert(`You won ${userOpt} ${compOpt}`);
-    }  
-    else if(userOpt==='paper' && compOpt==='rock'){
-        winner='user';
-        display2.innerHTML='You Won';
-        // alert(`User Won ${userOpt} ${compOpt}`);
-    }   
-    else if(userOpt==='paper' && compOpt==='scissor'){
-        winner='computer';
-        display2.innerHTML='Computer Won';
-        // alert(`Computer Won ${userOpt} ${compOpt}`);
-    }    
-    else if(userOpt==='scissor' && compOpt==='rock'){
-        winner='computer';
-        display2.innerHTML='Computer Won';
-        // alert(`Computer Won ${userOpt} ${compOpt}`);
-    }
-    else if(userOpt==='scissor' && compOpt==='paper'){
-        winner='user';
-        display2.innerHTML='YOu Won';
-        // alert(`You Won ${userOpt} ${compOpt}`);
-    }  
-}
-
-function updateScore(s1, s2){
-    score1.innerHTML=s1;
-    score2.innerHTML=s2;
+function updateScore() {
+    score1.textContent = userScore;
+    score2.textContent = compScore;
 }
